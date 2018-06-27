@@ -3,7 +3,7 @@
 set -eo pipefail
 
 if [[ "$#" -lt 1 ]]; then
-  echo "usage: git deploy <user>@<server>"
+  echo "usage: git deploy [user]@<server>"
   echo "   ex: git deploy bob@prod.server.com"
   echo ""
   exit 1
@@ -36,7 +36,6 @@ while read old new refname; do
   git archive \$new | tar -x -C \$build_dir
   cd \$build_dir
   make git-deploy || exit 1
-  pwd
 done
 DOC
 
