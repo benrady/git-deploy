@@ -5,7 +5,7 @@ set -eo pipefail
 server=$1
 repo_name=$(basename $(git rev-parse --show-toplevel))
 git_root=".git_deploy"
-hook=~/${git_root}/$repo_name.git/hooks/pre-receive
+hook=${git_root}/$repo_name.git/hooks/pre-receive
 
 if [[ "$#" -lt 1 ]]; then
   echo "usage: git deploy [user]@<server>"
@@ -22,13 +22,13 @@ if [[ ! -d ~/${git_root}/$repo_name ]]; then
   cd ~/${git_root}/$repo_name.git/
   git init --bare
   git --bare update-server-info
-  touch $hook
-  chmod +x $hook
+  touch ~/$hook
+  chmod +x ~/$hook
 fi
 DOC
 
   # Add/update pre-receive hook
-  ssh $server "cat > $hook" <<DOC
+  ssh $server "cat > ~/$hook" <<DOC
 #!/bin/sh
 while read old new refname; do
   build_dir=.build/\$new
