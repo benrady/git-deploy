@@ -5,7 +5,8 @@ set -eo pipefail
 server=$1
 repo_name=$(basename $(git rev-parse --show-toplevel))
 git_root=".git_deploy"
-hook=${git_root}/$repo_name.git/hooks/pre-receive
+repo_path=${git_root}/$repo_name.git
+hook=${repo_path}/hooks/pre-receive
 
 if [[ "$#" -lt 1 ]]; then
   echo "usage: git deploy [user]@<server>"
@@ -17,9 +18,9 @@ fi
 function init_remote() {
   # Create remote repository
   ssh $server <<DOC
-if [[ ! -d ~/${git_root}/$repo_name ]]; then
-  mkdir -p ~/${git_root}/$repo_name.git
-  cd ~/${git_root}/$repo_name.git/
+if [[ ! -d ~/${repo_path} ]]; then
+  mkdir -p ~/${repo_path}
+  cd ~/${repo_path}
   git init --bare
   git --bare update-server-info
   touch ~/$hook
@@ -39,7 +40,7 @@ while read old new refname; do
 done
 DOC
 
-  git remote add $server $server:${git_root}/$repo_name.git
+  git remote add $server $server:${repo_path}
 }
 
 if ! git remote get-url $server &> /dev/null; then
