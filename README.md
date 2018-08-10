@@ -29,11 +29,10 @@ git-deploy:
         ln -f -s -T ${PWD}/public /var/www/html/my_app
 ```
 
-If you have a Ruby application that can be run from a /service directory using a tool like [runit](http://smarden.org/runit/) or [daemontools](https://cr.yp.to/daemontools.html), you can create a symlink to the /service directory in this target:
+If you have a Ruby/Python/Perl/etc application that can be run directly from a /service directory using a tool like [runit](http://smarden.org/runit/) or [daemontools](https://cr.yp.to/daemontools.html), you can create a symlink to the /service directory in this target:
 
 ```Makefile
 git-deploy:
-        mvn clean install
         ln -s -f -T ${PWD} /service/my_app
 ```
 
@@ -42,7 +41,7 @@ If you have a Java application that needs to be compiled first, you'll want some
 ```Makefile
 git-deploy:
         mvn clean install
-        ln -s -f -T ${PWD} /service/my_app
+        ln -s -f -T ${PWD}/target /service/my_app
 ```
 
 ## Continuous Integration
