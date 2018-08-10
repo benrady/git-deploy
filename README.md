@@ -54,7 +54,9 @@ git-deploy: release
 
 ## Continuous Integration
 
-The hooks that git-deploy installs will reject a push if the build command fails. This means you can add tests or other sanity checks to the build to ensure that everything that is deployed passes a minimum threshold of correctness. If the build fails, the currently running service will not be interrupted.
+Taking advantage of the default behavior of git, a deploy will be rejected if not in sync with a previously deployed version of the application. This means if you haven't integrated with something that's already been deployed, you can't accidentally undo it by deploying another change.
+
+Additionally, the hooks that git-deploy installs will reject a push if the build command fails. This means you can add tests or other sanity checks to the build to ensure that everything that is deployed passes a minimum threshold of correctness. If the build fails, the currently running service will not be interrupted.
 
 ## Rollback
 
