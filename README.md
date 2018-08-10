@@ -66,6 +66,23 @@ You can simple list the subdirectories in this directory to see what versions yo
 
 To roll back to a specific version, run `make git-deploy` from inside one of those directories. This will re-run the deploy for that version and roll your service back. Any logs or data files that were in that directory will have been preserved, allowing you to roll your application state back along with the code.
 
+## Configuration
+
+You can configure the plugin by creating a `.git_deploy_conf` file in the root of your repository. This file is sourced when the plugin runs. There are two variables, `GIT_DEPLOY_SUCCESS` and `GIT_DEPLOY_SERVER` that can be set to control behavior. Both are optional.
+
+ * `GIT_DEPLOY_SUCCESS` - A command (or bash function, as show below) to run locally after successfully deploying.
+ * `GIT_DEPLOY_SERVER` - A default server to use, if one is not specified on the command line.
+
+```bash
+function on_success() {
+  echo "Deploy Success! Pushing to central repository..."
+  git push origin master
+}
+
+GIT_DEPLOY_SUCCESS=on_success
+GIT_DEPLOY_SERVER=test.server.com
+```
+
 ## Special Cases and FAQ
 
 ### Why won't my application stop running?
