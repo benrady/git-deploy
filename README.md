@@ -1,7 +1,7 @@
 
 # git-deploy
 
-git-deploy is an ultra-lightweight continuous deployment tool packaged as a git plugin. It works by creating a bare repository on a remote server, with receive hooks that run a command to deploy your code. This creates a single point of integration and deployment that can be used by small and medium-sized teams that don't have to capacity or interest to set up more complex systems.
+git-deploy is an ultra-lightweight continuous deployment tool packaged as a git plugin. It works by creating a bare repository on a remote server, with receive hooks that run a command to deploy your code. This creates a single point of integration and deployment that can be used by small and medium-sized teams that don't have the capacity or interest to set up more complex systems.
 
 ## Dependencies
  * Git  (Obviously)
@@ -15,7 +15,7 @@ Like all git plugins, to install git-deploy you simply add it to your PATH. You 
 
 First, if you don't already have one, you need to create a [Makefile](http://mrbook.org/blog/tutorials/make/) in the root of your repository. This Makefile should have a target named `git-deploy` that does whatever you need to do to deploy your code. This will be run on the remote server after your repo is checked out by git-deploy.
 
-For example, if you have a static website in the `public` directory of your repository, you'll want a makefile that looks like this:
+For example, if you have a static website in the `public` directory of your repository, you'll want a Makefile that looks like this:
 
 ```Makefile
 git-deploy:
