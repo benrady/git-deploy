@@ -49,4 +49,3 @@ if ! git remote get-url $server &> /dev/null; then
 fi
 echo "Pushing to $server"
 git push $server master
-git push origin master
