@@ -40,7 +40,7 @@ If you have a Java application that needs to be compiled first, you'll want some
 
 ```Makefile
 git-deploy:
-        mvn clean install
+        mvn package
         ln -s -f -T ${PWD}/target /service/my_app
 ```
 
@@ -86,19 +86,19 @@ GIT_DEPLOY_SERVER=test.server.com
 ## Special Cases and FAQ
 
 ### Why won't my application stop running?
-Using a service manager like runit or daemontools means you need to understand how your process starts and stops. These tools send a (signal)[] to the run script in your application when they're supposed to stop. Be sure that you're using `exec` in your run script to _replace_ the bash process with python/ruby/java/binary so that it actually receives the signal.
+Using a service manager like runit or daemontools means you need to understand how your process starts and stops. These tools send a [signal](http://man7.org/linux/man-pages/man7/signal.7.html) to the run script in your application when they're supposed to stop. Be sure that you're using `exec` in your run script to _replace_ the bash process with python/ruby/java/binary so that it actually receives the signal.
 
-If that's not sufficient, you may need to take steps in your makefile to shut down the existing service. You'll probably want to do this _after_ building and/or running tests though. For example:
+If that's not sufficient, you may need to take steps in your makefile to shut down the existing service. You'll probably want to do this _after_ building and/or running tests though, because `make` will exit if there's an error and prevent a working service from being replaced by a failing one. For example:
 
 ```Makefile
 git-deploy:
-        mvn clean install
+        mvn package
         pkill -f hard_to_kill.jar
         ln -s -f -T ${PWD} ~/service/hard_to_kill
 ```
 
 ### I deployed once but it didn't work. Now things are messed up.
 
-The safest way to "reset" things is to the delete:
- 1. The bare repository on the remote server (located at ~/.git-deploy/[repo name].git/)
- 2. The git-deploy remote that was added to your local git configuration. You'll see it when you run `git remote -v`
+The safest way to "reset" things is to delete:
+ 1. The bare repository on the remote server (located at ~/.git-deploy/[repo name].git/).
+ 2. The git-deploy remote that was added to your local git configuration. You'll see it when you run `git remote -v`.
