@@ -44,6 +44,14 @@ git-deploy:
         ln -s -f -T ${PWD}/target /service/my_app
 ```
 
+
+Of course, if you have a C/C++ application, you probably already have a Makefile. You'll just need to ensure your build dependencies are also on the server that you're deploying to.
+
+```Makefile
+git-deploy: release
+        ln -s -f -T ${PWD}/build/release/my_service /usr/bin/my_service
+```
+
 ## Continuous Integration
 
 The hooks that git-deploy installs will reject a push if the build command fails. This means you can add tests or other sanity checks to the build to ensure that everything that is deployed passes a minimum threshold of correctness. If the build fails, the currently running service will not be interrupted.
