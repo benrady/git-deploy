@@ -9,7 +9,7 @@ git-deploy is an ultra-lightweight continuous deployment tool packaged as a git 
 
 ## Installation
 
-Like all git plugins, to install git-deploy you simply add it to your PATH. 
+Like all git plugins, to install git-deploy you add it to your PATH. 
 
 There are many ways to do this. Here is one way that will only change the path in the current terminal session. You'll probably want something more permanent.
 
