@@ -22,7 +22,7 @@ $ export PATH=$PWD/git-deploy/bin:$PATH
 
 First, if you don't already have one, you need to create a [Makefile](http://mrbook.org/blog/tutorials/make/). This makefile should have a target named `git-deploy` that takes the current working directory and does whatever you need to do to deploy your code.
 
-For example, if you have a static web application in the `public` directory of your repository, you'll want a makefile that looks like this:
+For example, if you have a static website in the `public` directory of your repository, you'll want a makefile that looks like this:
 
 ```Makefile
 git-deploy:
