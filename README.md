@@ -29,12 +29,14 @@ git-deploy:
         ln -s -f -T ${PWD} /service/my_app
 ```
 
-If you have a Java application that needs to be compiled first, you'll want something like this:
+If you have a Java application that needs to be compiled, and uses a start/stop script to run as a daemon, you'll want something like this:
 
 ```Makefile
 git-deploy:
         mvn package
-        ln -s -f -T ${PWD}/target /service/my_app
+        ~/my_app/scripts/stop
+        ln -s -f -T ${PWD}/target ~/my_app
+        ~/my_app/scripts/start
 ```
 
 
