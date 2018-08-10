@@ -51,7 +51,7 @@ The hooks that git-deploy installs will reject a push if the build command fails
 
 ## Rollback
 
-git-deploy keeps a copy of every version of your application that you've ever deployed. These are kept (named for the SHA of the HEAD commit) in the ~/.git-deploy/[repo name].git/.build directory on the remote server.
+git-deploy keeps a copy of every version of your application that you've ever deployed. These are kept (named for the SHA of the HEAD commit) in the `~/.git-deploy/[repo name].git/.build` directory on the remote server.
 
 You can simple list the subdirectories in this directory to see what versions you've deployed. `ls -alt` is useful here. 
 
