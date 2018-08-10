@@ -55,7 +55,7 @@ Additionally, the hooks that git-deploy installs will reject a push if the build
 
 git-deploy keeps a copy of every version of your application that you've ever deployed. These are kept (named for the SHA of the HEAD commit) in the `~/.git-deploy/[repo name].git/.build` directory on the remote server. You can simply list the subdirectories in this directory to see what versions you've deployed. `ls -alt` is useful here.
 
-By symlinking these directories to other parts of the filesystem (a runit /service directory, for example), and running the services out of those directories, you can control what files and data are shared between different versions of the app, and which are kept isolated from other versions.
+By symlinking these directories to other parts of the filesystem (a runit [/service directory](http://smarden.org/runit/faq.html#tell), for example), and running the services out of those directories, you can control what files and data are shared between different versions of the app, and which are kept isolated from other versions.
 
 This means, to roll back to a specific version, you can run `make git-deploy` from inside one of those directories. This will re-run the deploy for that version and roll your service back. Any logs or data files that were in that directory will have been preserved, allowing you to roll your application state back along with the code. Any files stored outside of that directory will remain unchanged.
 
