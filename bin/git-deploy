@@ -52,7 +52,7 @@ server=${1:-${GIT_DEPLOY_SERVER}}
 
 if [[ -z $server ]]; then
   echo ""
-  echo "=== git-deploy v1.0.1 ==="
+  echo "=== git-deploy v1.1.0 ==="
   echo "usage: git deploy [user@]<server>"
   echo "   ex: git deploy bob@prod.server.com"
   echo ""
