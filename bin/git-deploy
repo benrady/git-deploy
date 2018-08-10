@@ -2,17 +2,16 @@
 
 set -eo pipefail
 
-server=$1
-repo_name=$(basename $(git rev-parse --show-toplevel))
+toplevel=$(git rev-parse --show-toplevel)
+conf_file=$toplevel/.git_deploy_conf
+repo_name=$(basename $toplevel)
 git_root=".git_deploy"
 repo_path=${git_root}/$repo_name.git
 hook=${repo_path}/hooks/pre-receive
 
-if [[ "$#" -lt 1 ]]; then
-  echo "usage: git deploy [user]@<server>"
-  echo "   ex: git deploy bob@prod.server.com"
-  echo ""
-  exit 1
+if [[ -e $conf_file ]]; then
+  echo "Loading configuration from $conf_file"
+  source $conf_file
 fi
 
 function init_remote() {
@@ -43,9 +42,27 @@ DOC
   git remote add $server $server:${repo_path}
 }
 
+function post_deploy() {
+  if [[ -n $GIT_DEPLOY_SUCCESS ]]; then
+    $GIT_DEPLOY_SUCCESS
+  fi
+}
+
+server=${1:-${GIT_DEPLOY_SERVER}}
+
+if [[ -z $server ]]; then
+  echo ""
+  echo "=== git-deploy v1.0.1 ==="
+  echo "usage: git deploy [user@]<server>"
+  echo "   ex: git deploy bob@prod.server.com"
+  echo ""
+  exit 1
+fi
+
 if ! git remote get-url $server &> /dev/null; then
   echo "Checking remote repository"
   init_remote
 fi
+
 echo "Pushing to $server"
-git push $server master
+git push $server master && post_deploy
