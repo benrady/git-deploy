@@ -3,6 +3,16 @@
 
 git-deploy is an ultra-lightweight continuous deployment tool packaged as a git plugin. It works by creating a bare repository on a remote server, with receive hooks that run a command to deploy your code. This creates a single point of integration and deployment that can be used by small and medium-sized teams that don't have the capacity or interest to set up more complex systems.
 
+## Usage
+
+To deploy all changes committed from your local repository, run:
+
+```
+$ git deploy <servername>
+```
+
+where <servername> is a server that you have ssh access to. As with ssh, you may need to specify a username.
+
 ## Dependencies
  * Git  (Obviously)
  * Make (Used to run deployment tasks)
@@ -46,16 +56,6 @@ Of course, if you have a C/C++ application, you probably already have a Makefile
 git-deploy: release
         ln -s -f -T ${PWD}/build/release/my_service /usr/bin/my_service
 ```
-
-## Usage
-
-To deploy all changes committed from your local repository, run:
-
-```
-$ git deploy <servername>
-```
-
-where <servername> is a server that you have ssh access to. As with ssh, you may need to specify a username.
 
 ## Continuous Integration
 
