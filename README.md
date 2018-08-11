@@ -11,9 +11,9 @@ git-deploy is an ultra-lightweight continuous deployment tool packaged as a git 
 
 Like all git plugins, to install git-deploy you add it to your PATH. You can [download the plugin here](https://raw.githubusercontent.com/benrady/git-deploy/master/bin/git-deploy).
 
-## Usage
+## Setup
 
-First, if you don't already have one, you need to create a [Makefile](http://mrbook.org/blog/tutorials/make/) in the root of your repository. This Makefile should have a target named `git-deploy` that does whatever you need to do to deploy your code. This will be run on the remote server after your repo is checked out by git-deploy.
+If you don't already have one, you need to create a [Makefile](http://mrbook.org/blog/tutorials/make/) in the root of your repository. This Makefile should have a target named `git-deploy` that does whatever you need to do to deploy your code. This will be run on the remote server after your repo is checked out by git-deploy.
 
 For example, if you have a static website in the `public` directory of your repository, you'll want a Makefile that looks like this:
 
@@ -46,6 +46,16 @@ Of course, if you have a C/C++ application, you probably already have a Makefile
 git-deploy: release
         ln -s -f -T ${PWD}/build/release/my_service /usr/bin/my_service
 ```
+
+## Usage
+
+To deploy all changes committed from your local repository, run:
+
+```
+$ git deploy <servername>
+```
+
+where <servername> is a server that you have ssh access to. As with ssh, you may need to specify a username.
 
 ## Continuous Integration
 
