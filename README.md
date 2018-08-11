@@ -11,7 +11,7 @@ To deploy all changes committed to a local git repository, run this command from
 $ git deploy [servername]
 ```
 
-The server that you have ssh access to. As with ssh, you may need to specify a username.
+You must have ssh access to the server. As with ssh, you may need to specify a username.
 
 ## Dependencies
  * Git  (Obviously)
