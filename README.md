@@ -104,6 +104,7 @@ git-deploy:
 
 ### I deployed once but it didn't work. Now things are messed up.
 
-The safest way to "reset" things is to delete:
- 1. The bare repository on the remote server (located at ~/.git-deploy/[repo name].git/).
- 2. The git-deploy remote that was added to your local git configuration. You'll see it when you run `git remote -v`.
+If you want to "reset" things, here are some steps to try:
+ 1. Delete the git-deploy remote that was added to your local git configuration. You'll see it when you run `git remote -v`.
+ 2. Delete the bare repository on the remote server (located at ~/.git-deploy/[repo name].git/). Be aware that this will delete your previously deployed versions.
+
