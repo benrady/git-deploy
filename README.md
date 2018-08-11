@@ -5,13 +5,13 @@ git-deploy is an ultra-lightweight continuous deployment tool packaged as a git 
 
 ## Usage
 
-To deploy all changes committed from your local repository, run:
+To deploy all changes committed to a local git repository, run this command from inside the repository:
 
 ```
 $ git deploy <servername>
 ```
 
-where <servername> is a server that you have ssh access to. As with ssh, you may need to specify a username.
+<servername> must be a server that you have ssh access to. As with ssh, you may need to specify a username.
 
 ## Dependencies
  * Git  (Obviously)
