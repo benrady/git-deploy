@@ -2,55 +2,55 @@
 
 set -eo pipefail
 
-toplevel=$(git rev-parse --show-toplevel)
-conf_file=$toplevel/.git_deploy_conf
-repo_name=$(basename $toplevel)
-git_root=".git_deploy"
-repo_path=${git_root}/$repo_name.git
-hook=${repo_path}/hooks/pre-receive
+readonly TOPLEVEL=$(git rev-parse --show-toplevel)
+readonly CONF_FILE="${TOPLEVEL}/.git_deploy_conf"
+readonly REPO_NAME=$(basename "${TOPLEVEL}")
+readonly GIT_ROOT=".git_deploy"
+readonly REPO_PATH="${GIT_ROOT}/${REPO_NAME}.git"
+readonly HOOK="${REPO_PATH}/hooks/pre-receive"
 
-if [[ -e $conf_file ]]; then
-  echo "Loading configuration from $conf_file"
-  source $conf_file
+if [[ -f "${CONF_FILE}" ]]; then
+  echo "Loading configuration from ${CONF_FILE}"
+  source "${CONF_FILE}"
 fi
 
-function init_remote() {
+init_remote() {
   # Create remote repository
-  ssh $server <<DOC
-if [[ ! -d ~/${repo_path} ]]; then
-  mkdir -p ~/${repo_path}
-  cd ~/${repo_path}
+  ssh "${SERVER}" <<DOC
+if [[ ! -d ~/${REPO_PATH} ]]; then
+  mkdir -p ~/${REPO_PATH}
+  cd ~/${REPO_PATH}
   git init --bare
   git --bare update-server-info
-  touch ~/$hook
-  chmod +x ~/$hook
+  touch ~/${HOOK}
+  chmod +x ~/${HOOK}
 fi
 DOC
 
   # Add/update pre-receive hook
-  ssh $server "cat > ~/$hook" <<DOC
+  ssh "${SERVER}" "cat > ~/${HOOK}" <<DOC
 #!/bin/sh
 while read old new refname; do
-  build_dir=.build/\$new
-  mkdir -p \$build_dir
-  git archive \$new | tar -x -C \$build_dir
-  cd \$build_dir
+  build_dir=.build/\${new}
+  mkdir -p \${build_dir}
+  git archive \${new} | tar -x -C \${build_dir}
+  cd \${build_dir}
   make git-deploy || exit 1
 done
 DOC
 
-  git remote add $server $server:${repo_path}
+  git remote add "${SERVER}" "${SERVER}:${REPO_PATH}"
 }
 
-function post_deploy() {
-  if [[ -n $GIT_DEPLOY_SUCCESS ]]; then
-    $GIT_DEPLOY_SUCCESS
+post_deploy() {
+  if [[ -n "${GIT_DEPLOY_SUCCESS}" ]]; then
+    "${GIT_DEPLOY_SUCCESS}"
   fi
 }
 
-server=${1:-${GIT_DEPLOY_SERVER}}
+SERVER=${1:-${GIT_DEPLOY_SERVER}}
 
-if [[ -z $server ]]; then
+if [[ -z "${SERVER}" ]]; then
   echo ""
   echo "=== git-deploy v1.1.0 ==="
   echo "usage: git deploy [user@]<server>"
@@ -59,10 +59,12 @@ if [[ -z $server ]]; then
   exit 1
 fi
 
-if ! git remote get-url $server &> /dev/null; then
+if ! git remote get-url "${SERVER}" &> /dev/null; then
   echo "Checking remote repository"
   init_remote
 fi
 
-echo "Pushing to $server"
-git push $server master && post_deploy
+echo "Pushing to ${SERVER}"
+git push "${SERVER}" master && post_deploy
+
+exit 0
