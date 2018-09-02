@@ -19,7 +19,12 @@ You must have ssh access to the server. As with ssh, you may need to specify a u
 
 ## Installation
 
-Like all git plugins, to install git-deploy you add it to your PATH. You can [download the plugin here](https://raw.githubusercontent.com/benrady/git-deploy/master/bin/git-deploy).
+Like all git plugins, to install git-deploy you add it to your PATH. You can download it like so:
+```bash
+wget https://raw.githubusercontent.com/benrady/git-deploy/master/bin/git-deploy
+chmod +x git-deploy
+```
+Just be sure to put it somewhere that's on your shell's PATH.
 
 ## Setup
 
