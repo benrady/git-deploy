@@ -16,7 +16,7 @@ fi
 
 init_remote() {
   # Create remote repository
-  ssh "${SERVER}" <<DOC
+  ssh "${SERVER}" /bin/bash <<DOC
 if [[ ! -d ~/${REPO_PATH} ]]; then
   mkdir -p ~/${REPO_PATH}
   cd ~/${REPO_PATH}
@@ -31,11 +31,22 @@ DOC
   ssh "${SERVER}" "cat > ~/${HOOK}" <<DOC
 #!/bin/sh
 while read old new refname; do
-  build_dir=.build/\${new}
-  mkdir -p \${build_dir}
-  git archive \${new} | tar -x -C \${build_dir}
-  cd \${build_dir}
-  make git-deploy || exit 1
+  case "\$refname" in
+    refs/heads/*)
+      echo "Deploying ref \$refname"
+      build_dir=.build/\${new}
+      mkdir -p \${build_dir}
+      git archive \${new} | tar -x -C \${build_dir}
+      cd \${build_dir}
+      make git-deploy || exit 1
+      ;;
+    refs/tags/*)
+      echo "Skipping non-commit tag ref \$refname"
+      ;;
+    *)
+      echo "Skipping unknown ref type \$refname"
+      ;;
+  esac
 done
 DOC
 
