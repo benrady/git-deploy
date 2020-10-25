@@ -76,6 +76,6 @@ if ! git remote get-url "${SERVER}" &> /dev/null; then
 fi
 
 echo "Pushing to ${SERVER}"
-git push "${SERVER}" master && post_deploy
+git push "${SERVER}" master
 
-exit 0
+post_deploy
